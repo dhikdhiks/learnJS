@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-console.log("Hello, TypeScript!");
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,dogecoin&order=market_cap_desc";
 const coinList = document.getElementById("coin-list");
 function fetchCoins() {
@@ -47,4 +46,15 @@ function renderCoins(coins) {
         coinList.appendChild(card);
     });
 }
+// Auto Refresh System
+let refreshInterval = null;
+function startAutoRefresh() {
+    if (refreshInterval !== null)
+        return;
+    refreshInterval = window.setInterval(() => {
+        fetchCoins();
+    }, 30000); // 30 detik
+}
+// Initial Load
 fetchCoins();
+startAutoRefresh();

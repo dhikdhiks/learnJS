@@ -1,4 +1,3 @@
-console.log("Hello, TypeScript!");
 interface Coin {
   id: string;
   name: string;
@@ -50,4 +49,17 @@ function renderCoins(coins: Coin[]): void {
   });
 }
 
+// Auto Refresh System
+let refreshInterval: number | null = null;
+
+function startAutoRefresh() {
+  if (refreshInterval !== null) return;
+
+  refreshInterval = window.setInterval(() => {
+    fetchCoins();
+  }, 30000); // 30 detik
+}
+
+// Initial Load
 fetchCoins();
+startAutoRefresh();

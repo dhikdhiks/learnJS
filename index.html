@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crypto Market</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-900 text-white min-h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Market Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-900 text-white min-h-screen p-8">
 
-  <div class="max-w-5xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6">Crypto Market Dashboard</h1>
 
-    <div id="coin-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Cards from API -->
-    </div>
-  </div>
+    <div
+      id="coin-list"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+    ></div>
 
-  <script src="./dist/main.js"></script>
-</body>
+    <!-- IMPORTANT: arahkan ke file hasil compile -->
+    <script src="./dist/main.js"></script>
+  </body>
 </html>
