@@ -1,3 +1,4 @@
+console.log("Update at " + new Date().toISOString());
 interface Coin {
   id: string;
   name: string;
