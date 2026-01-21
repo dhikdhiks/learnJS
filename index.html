@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Market Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-slate-900 text-white min-h-screen p-8">
+<head>
+  <meta charset="UTF-8" />
+  <title>⚡ Crypto Cyberpunk Dashboard</title>
 
-    <h1 class="text-3xl font-bold mb-6">Crypto Market Dashboards</h1>
+  <!-- Cyberpunk Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
-    <div
-      id="coin-list"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-    ></div>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #0f2027, #000);
+      font-family: 'Orbitron', monospace;
+      color: #00fff7;
+      text-align: center;
+    }
 
-    <!-- IMPORTANT: arahkan ke file hasil compile -->
-    <script src="./dist/main.js"></script>
-  </body>
+    h1 {
+      margin: 24px;
+      text-shadow: 0 0 15px #00fff7;
+    }
+
+    #tokens {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .card {
+      background: rgba(0, 255, 247, 0.08);
+      border: 1px solid #00fff7;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 0 20px #00fff7;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 48px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>⚡ Crypto Market 2026 ⚡</h1>
+  <div id="tokens"></div>
+
+  <!-- hasil compile dari main.ts -->
+  <script type="module" src="../dist/main.js"></script>
+</body>
 </html>

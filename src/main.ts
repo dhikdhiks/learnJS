@@ -1,66 +1,86 @@
-console.log("Update at " + new Date().toISOString());
-interface Coin {
+/**
+ * TYPE DEFINITIONS
+ * Ini seperti ABI frontend
+ */
+interface TokenMarket {
   id: string;
   name: string;
+  symbol: string;
   image: string;
   current_price: number;
-  market_cap: number;
 }
 
-const API_URL =
-  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,dogecoin&order=market_cap_desc";
+/**
+ * CONSTANTS
+ */
+const API_BASE =
+  "https://api.coingecko.com/api/v3/coins/markets";
 
-const coinList = document.getElementById("coin-list") as HTMLDivElement;
+const container = document.getElementById("tokens") as HTMLDivElement;
 
-async function fetchCoins(): Promise<void> {
-  try {
-    const res = await fetch(API_URL);
-    const data: Coin[] = await res.json();
-    renderCoins(data);
-  } catch (err) {
-    console.error("Fetch error:", err);
+/**
+ * FETCH FUNCTION
+ * Async karena network = I/O
+ */
+async function fetchTokens(
+  vsCurrency: "usd" | "idr"
+): Promise<TokenMarket[]> {
+  const url = `${API_BASE}?vs_currency=${vsCurrency}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("CoinGecko API error");
   }
+
+  return response.json();
 }
 
-function renderCoins(coins: Coin[]): void {
-  coinList.innerHTML = "";
+/**
+ * RENDER FUNCTION
+ */
+function renderTokens(
+  usd: TokenMarket[],
+  idr: TokenMarket[]
+): void {
+  container.innerHTML = "";
 
-  coins.forEach((coin) => {
+  usd.forEach((token, i) => {
+    const idrToken = idr[i];
+
     const card = document.createElement("div");
-    card.className =
-      "bg-slate-800 p-5 rounded-xl shadow hover:scale-105 transition";
+    card.className = "card";
 
     card.innerHTML = `
-      <div class="flex items-center gap-3">
-        <img src="${coin.image}" class="w-12 h-12" />
-        <p class="font-semibold text-lg">${coin.name}</p>
-      </div>
-
-      <div class="mt-4 space-y-1">
-        <p class="text-sm text-slate-400">
-          Market Cap: $${coin.market_cap.toLocaleString()}
-        </p>
-        <p class="text-xl font-bold">
-          Price: $${coin.current_price.toLocaleString()}
-        </p>
-      </div>
+      <img src="${token.image}" />
+      <h3>${token.name} (${token.symbol.toUpperCase()})</h3>
+      <div class="price">USD: $${token.current_price.toLocaleString()}</div>
+      <div class="price">IDR: Rp ${idrToken.current_price.toLocaleString()}</div>
     `;
 
-    coinList.appendChild(card);
+    container.appendChild(card);
   });
 }
 
-// Auto Refresh System
-let refreshInterval: number | null = null;
+/**
+ * MAIN LOGIC
+ * Promise.all = paralel (lebih efisien)
+ */
+async function loadMarket(): Promise<void> {
+  try {
+    const [usd, idr] = await Promise.all([
+      fetchTokens("usd"),
+      fetchTokens("idr")
+    ]);
 
-function startAutoRefresh() {
-  if (refreshInterval !== null) return;
-
-  refreshInterval = window.setInterval(() => {
-    fetchCoins();
-  }, 30000); // 30 detik
+    renderTokens(usd, idr);
+  } catch (error) {
+    console.error("Failed to load market", error);
+  }
 }
 
-// Initial Load
-fetchCoins();
-startAutoRefresh();
+/**
+ * REALTIME UPDATE
+ */
+loadMarket();
+setInterval(loadMarket, 30_000);
