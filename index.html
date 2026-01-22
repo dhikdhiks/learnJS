@@ -2,59 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>⚡ Crypto Cyberpunk Dashboard</title>
+  <title>Crypto Market Overview</title>
 
-  <!-- Cyberpunk Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #0f2027, #000);
+      background: #05070a;
       font-family: 'Orbitron', monospace;
-      color: #00fff7;
+      color: #d6fffd;
+    }
+
+    header {
+      padding: 32px 20px;
       text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    h1 {
-      margin: 24px;
-      text-shadow: 0 0 15px #00fff7;
+    header h1 {
+      margin: 0;
+      font-weight: 600;
     }
 
+    header p {
+      margin-top: 8px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* LIST */
     #tokens {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
-      padding: 30px;
     }
 
-    .card {
-      background: rgba(0, 255, 247, 0.08);
-      border: 1px solid #00fff7;
+    .coin-item {
+      background: #0e161c;
       border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .coin-item:hover {
+      transform: translateY(-4px);
+      background: #122028;
+    }
+
+    .coin-basic {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .coin-basic img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .coin-basic strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .coin-basic span {
+      font-size: 11px;
+      opacity: 0.6;
+    }
+
+    .coin-price {
+      margin-top: 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .coin-change {
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .coin-change.up { color: #2cffc9; }
+    .coin-change.down { color: #ff5f5f; }
+
+    /* DETAIL PANEL */
+    #coin-detail {
+      background: #0e161c;
+      border-radius: 16px;
       padding: 20px;
-      box-shadow: 0 0 20px #00fff7;
-      transition: transform 0.2s ease;
+      position: sticky;
+      top: 24px;
+      height: fit-content;
     }
 
-    .card:hover {
-      transform: scale(1.05);
+    #coin-detail h2 {
+      margin-top: 0;
     }
 
-    img {
-      width: 48px;
-      margin-bottom: 10px;
+    #coin-detail section {
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    .price {
-      margin: 6px 0;
+    #coin-detail small {
+      display: block;
+      margin-top: 16px;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
-  <h1>⚡ Crypto Market 2026 ⚡</h1>
-  <div id="tokens"></div>
+  <header>
+    <h1>Crypto Market Overview</h1>
+    <p>Real-time digital asset pricing · USD</p>
+  </header>
+
+  <main>
+    <!-- LIST COIN -->
+    <div id="tokens"></div>
+
+    <!-- DETAIL COIN -->
+    <aside id="coin-detail">
+      <p style="opacity:.5">Select a coin to view details</p>
+    </aside>
+  </main>
 
   <!-- hasil compile dari main.ts -->
   <script type="module" src="../dist/main.js"></script>
